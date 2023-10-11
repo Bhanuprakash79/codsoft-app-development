@@ -1,0 +1,34 @@
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+
+class AlarmClockApp(App):
+    def build(self):
+        # Create the Home Screen
+        home_screen = BoxLayout(orientation='vertical')
+        home_screen.add_widget(Label(text="Current Time and Date"))
+        set_alarm_button = Button(text="Set New Alarm")
+        set_alarm_button.bind(on_press=self.show_alarm_setting_screen)
+        home_screen.add_widget(set_alarm_button)
+        return home_screen
+
+    def show_alarm_setting_screen(self, instance):
+        # Create the Alarm Setting Screen
+        alarm_setting_screen = BoxLayout(orientation='vertical')
+        time_picker = Label(text="Pick Alarm Time")
+        tone_selection = Label(text="Choose Alarm Tone")
+        set_alarm_button = Button(text="Set Alarm")
+        set_alarm_button.bind(on_press=self.set_alarm)
+        alarm_setting_screen.add_widget(time_picker)
+        alarm_setting_screen.add_widget(tone_selection)
+        alarm_setting_screen.add_widget(set_alarm_button)
+        self.root.clear_widgets()
+        self.root.add_widget(alarm_setting_screen)
+
+    def set_alarm(self, instance):
+        # Logic to set the alarm
+        pass
+
+if __name__ == '__main__':
+    AlarmClockApp().run()

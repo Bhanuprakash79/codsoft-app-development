@@ -1,0 +1,62 @@
+import tkinter as tk
+
+# Function to update the display
+def update_display(value):
+    current_text = display_var.get()
+    if current_text == "0":
+        display_var.set(value)
+    else:
+        display_var.set(current_text + value)
+
+# Function to perform calculations
+def calculate():
+    try:
+        result = str(eval(display_var.get()))
+        display_var.set(result)
+    except Exception as e:
+        display_var.set("Error")
+
+# Function to clear the display
+def clear():
+    display_var.set("0")
+
+# Create the main window
+root = tk.Tk()
+root.title("Calculator")
+
+# Create a StringVar to store the display text
+display_var = tk.StringVar()
+display_var.set("0")
+
+# Create a display label
+display_label = tk.Label(root, textvariable=display_var, font=("Arial", 24), anchor="e", bg="lightgray")
+display_label.grid(row=0, column=0, columnspan=4)
+
+# Define the button labels
+buttons = [
+    "7", "8", "9", "/",
+    "4", "5", "6", "*",
+    "1", "2", "3", "-",
+    "0", ".", "=", "+"
+]
+
+# Create and place the buttons in a grid
+row, col = 1, 0
+for button in buttons:
+    if button == "=":
+        tk.Button(root, text=button, width=10, height=2, command=calculate).grid(row=row, column=col)
+    elif button == "0":
+        tk.Button(root, text=button, width=10, height=2, command=lambda b=button: update_display(b)).grid(row=row, column=col, columnspan=2)
+        col += 1
+    else:
+        tk.Button(root, text=button, width=5, height=2, command=lambda b=button: update_display(b)).grid(row=row, column=col)
+    col += 1
+    if col > 3:
+        col = 0
+        row += 1
+
+# Create a clear button
+tk.Button(root, text="C", width=10, height=2, command=clear).grid(row=5, column=0, columnspan=2)
+
+# Start the main loop
+root.mainloop()

@@ -1,0 +1,40 @@
+import tkinter as tk
+from tkinter import PhotoImage
+import time
+
+class WindowNotificationApp:
+    def __init__(self, title, message, image_path, display_time):
+        self.root = tk.Tk()
+        self.root.title(title)
+        self.display_time = display_time * 1000
+        self.root.geometry("400x150")
+
+        self.title_label = tk.Label(self.root, text=title, font=("Arial", 16, "bold"))
+        self.title_label.pack(pady=10)
+
+        self.message_label = tk.Label(self.root, text=message, font=("Arial", 14))
+        self.message_label.pack(pady=10)
+
+        if image_path:
+            self.image = PhotoImage(file=image_path)
+            self.image_label = tk.Label(self.root, image=self.image)
+            self.image_label.pack(side="left", padx=10)
+
+        self.close_button = tk.Button(self.root, text="Close", command=self.close_notification)
+        self.close_button.pack()
+
+    def show_notification(self):
+        self.root.after(self.display_time, self.close_notification)
+        self.root.mainloop()
+
+    def close_notification(self):
+        self.root.destroy()
+
+if __name__ == "__main__":
+    title = "Notification"
+    message = "This is a sample notification"
+    image_path = "your_image.png"  # Specify the path to your image or use None for no image
+    display_time = 5  # Display time in seconds
+
+    app = WindowNotificationApp(title, message, image_path, display_time)
+    app.show_notification()
